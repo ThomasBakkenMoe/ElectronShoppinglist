@@ -79,3 +79,27 @@ const mainMenuTemplate = [
         ]
     }
 ];
+
+// If mac, add empty object to menu
+if (process.platform == 'darwin'){
+    mainMenuTemplate.unshift({}); // Adds an empty object to the start of the mainMenuTemplate array
+}
+
+// Add dev tools item if program is not in production
+if(process.env.NODE_ENV !== 'production'){
+    mainMenuTemplate.push({
+        label: 'Developer tools',
+        submenu:[
+            {
+                label: 'Toggle DevTools',
+                accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+                click(item, focusedWindow){
+                    focusedWindow.toggleDevTools();
+                }
+            },
+            {
+                role: 'reload',
+            }
+        ]
+    })
+}
